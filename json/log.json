@@ -1,0 +1,10 @@
+{
+    "logtostderr": 0,
+    "alsologtostderr": 0,
+    "colorlogtostderr": 1,
+    "log_prefix": 1,
+    "logbufsecs": 0,
+    "max_log_size": 64,
+    "minloglevel": 1,
+	"stop_logging_if_full_disk": 1
+}

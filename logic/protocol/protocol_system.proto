@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package Protocol;
+
+message C2S_SystemTick {
+
+}
+
+message S2C_SystemTick {
+
+}

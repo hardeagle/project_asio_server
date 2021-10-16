@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package Protocol;
+
+enum MsgId {
+    C2S_SYSTEM_BASE             = 0;
+    C2S_SYSTEM_TICK             = 1;
+    S2C_SYSTEM_TICK             = 2;
+    C2S_SYSTEM_TOP              = 99;
+
+    // account
+    C2S_ACCOUNT_BASE            = 100;
+    C2S_ACCOUNT_LOGIN           = 101;
+    S2C_ACCOUNT_LOGIN           = 102;
+    C2S_ACCOUNT_CREATE          = 103;
+    S2C_ACCOUNT_CREATE          = 104;
+    C2S_ACCOUNT_LOAD            = 105;
+    S2C_ACCOUNT_LOAD            = 106;
+    C2S_ACCOUNT_ASK_OPENID      = 107;
+    S2C_ACCOUNT_ASK_OPENID      = 108;
+    C2S_ACCOUNT_UPDATE          = 109;
+    S2C_ACCOUNT_UPDATE          = 110;
+    C2S_ACCOUNT_TOP             = 199;
+
+    // shop
+    C2S_SHOP_BASE               = 200;
+    C2S_SHOP_LOAD               = 201;
+    S2C_SHOP_LOAD               = 202;
+    C2S_SHOP_BUY                = 203;
+    S2C_SHOP_BUY                = 204;
+    C2S_SHOP_TOP                = 299;
+
+    // rank
+    C2S_RANK_BASE               = 300;
+    C2S_RANK_LOAD               = 301;
+    S2C_RANK_LOAD               = 302;
+    C2S_RANK_UPDATE             = 303;
+    S2C_RANK_UPDATE             = 304;
+    S2C_RANK_MARQUEE            = 306;
+    C2S_RANK_TOP                = 399;
+
+}

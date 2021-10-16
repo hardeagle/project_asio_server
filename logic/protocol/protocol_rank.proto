@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package Protocol;
+
+message RankItem {
+    int32 rank = 1;
+    int64 role_id = 2;
+    string name = 3;
+    string avatarurl = 4;
+}
+
+message C2S_RankLoad {
+    int32 game_id = 1;
+    int32 limit = 2;
+}
+
+message S2C_RankLoad {
+    int32 rank = 1;
+    repeated RankItem ris = 2;
+}
+
+message C2S_RankUpdate {
+    int32 game_id = 1;
+    int32 score = 2;
+}
+
+message S2C_RankUpdate {
+    int32 ret = 1;
+}
+
+message S2C_RankMarquee {
+    int32 type = 1;
+    int32 score = 2;
+    int32 rank = 3;
+    string name = 4;
+}

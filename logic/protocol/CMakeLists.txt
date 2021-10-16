@@ -1,0 +1,13 @@
+find_package(Protobuf 3 REQUIRED)
+
+LIST(APPEND PROTO_FLAGS -I ${CMAKE_CURRENT_SOURCE_DIR})
+file(GLOB_RECURSE MSG_PROTOS ${CMAKE_CURRENT_SOURCE_DIR}/*.proto)
+
+execute_process(
+    COMMAND ${PROTOBUF_PROTOC_EXECUTABLE} ${PROTO_FLAGS} --cpp_out=${CMAKE_CURRENT_SOURCE_DIR} ${MSG_PROTOS}
+)
+
+aux_source_directory(. PROTOCOL_LIB_SRCS)
+
+add_library (co_protocol SHARED ${PROTOCOL_LIB_SRCS})
+

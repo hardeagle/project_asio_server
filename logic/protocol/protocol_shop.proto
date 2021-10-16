@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package Protocol;
+
+message C2S_ShopLoad {
+
+}
+
+message S2C_ShopLoad {
+
+}
+
+message C2S_ShopBuy {
+
+}
+
+message S2C_ShopBuy {
+
+}
