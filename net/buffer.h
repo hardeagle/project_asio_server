@@ -75,6 +75,10 @@ public:
         return val;
     }
 
+    std::vector<uint8_t>& getStorage() {
+		return m_storage;
+	}
+
 private:
     uint16_t m_wpos;
     uint16_t m_rpos;

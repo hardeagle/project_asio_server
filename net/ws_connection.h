@@ -2,9 +2,11 @@
 #ifndef __NET_WS_CONNECTION_H__
 #define __NET_WS_CONNECTION_H__
 
+#include <atomic>
 #include <deque>
 #include <list>
 #include <memory>
+#include <mutex>
 
 #include <boost/asio.hpp>
 #include <boost/asio/awaitable.hpp>
@@ -55,7 +57,6 @@ public:
 
     WsConnection(boost::asio::io_context& ioc, Resource::ptr resource)
         : m_ioc(ioc)
-        , m_strand(boost::asio::make_strand(ioc))
         , m_socket(ioc)
         , m_resource(resource) {
     }
@@ -84,19 +85,18 @@ private:
     void setupWss();
 
     void doRead();
-    void doWrite();
+    void doWrite(const Buffer& msg);
 
     void close();
 
 private:
     boost::asio::io_context& m_ioc;
-    boost::asio::strand<boost::asio::io_context::executor_type> m_strand;
     boost::asio::ip::tcp::socket m_socket;
     WebSocketStream::ptr m_wss;
 
+    std::mutex m_mutex;
+    std::atomic<bool> m_writeing { false };
     std::deque<Buffer> m_wMsgs;
-
-    std::shared_ptr<ServletDispatchRange> m_servlet;
 
     std::shared_ptr<Resource> m_resource;
 

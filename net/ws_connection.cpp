@@ -38,11 +38,21 @@ void WsConnection::send(uint16_t id, const std::string& msg) {
     buffer.push(checksum);
     buffer.write(msg.data(), msg.size());
 
-    wss().async_write(boost::asio::buffer(msg.data(), msg.size()), [](const boost::system::error_code& ec, std::size_t bytes_transferred) {
-        //LOG(ERROR) << "-------async write ec " << ec;
-    });
+    // wss().async_write(boost::asio::buffer(msg.data(), msg.size()), [](const boost::system::error_code& ec, std::size_t bytes_transferred) {
+    //     if (ec) {
+    //         LOG(ERROR) << "-------async write ec " << ec;
+    //     }
+    // });
 
-    //m_wMsgs.push_back(buffer);
+    m_mutex.lock();
+    auto empty = m_wMsgs.empty();
+    m_wMsgs.push_back(buffer);
+    if (empty) {
+        m_mutex.unlock();
+        doWrite();
+        return;
+    }
+    m_mutex.unlock();
 }
 
 void WsConnection::setupWss() {
@@ -95,8 +105,21 @@ void WsConnection::doRead() {
     });
 }
 
-void WsConnection::doWrite() {
+void WsConnection::doWrite(const Buffer& msg) {
+    wss().async_write(boost::asio::buffer(msg.getStorage()), [this, self = shared_from_self()](const boost::system::error_code& ec, std::size_t bytes_transferred) {
+        if (ec) {
+            LOG(ERROR) << "-------async write ec " << ec;
+        }
 
+        m_mutex.lock();
+        m_wMsgs.pop_front();
+        if (!m_wMsgs.empty()) {
+            m_mutex.unlock();
+            doWrite();
+        } else {
+            m_mutex.unlock();
+        }
+    });
 }
 
 void WsConnection::close() {
