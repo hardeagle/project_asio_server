@@ -112,10 +112,10 @@ void WsConnection::doWrite(const Buffer& msg) {
         }
 
         m_mutex.lock();
-        m_wMsgs.pop_front();
+        Buffer& msg = m_wMsgs.pop_front();
         if (!m_wMsgs.empty()) {
             m_mutex.unlock();
-            doWrite();
+            doWrite(msg);
         } else {
             m_mutex.unlock();
         }
